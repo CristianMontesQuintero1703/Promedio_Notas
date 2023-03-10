@@ -1,0 +1,57 @@
+package com.example.myapplication
+
+import android.content.Intent
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+
+class MainActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        val Calcular: Button = findViewById(R.id.btncalcular)
+        Calcular.setOnClickListener { CalculoPromedio() }
+
+    }
+
+    private fun CalculoPromedio() {
+
+        val campoNombre: EditText = findViewById(R.id.idNombreText)
+        val campoMateria: EditText = findViewById(R.id.idNombreMateriaText)
+        val campoNota1: EditText = findViewById(R.id.idMateria1Text)
+        val campoNota2: EditText = findViewById(R.id.idMateria2Text)
+        val campoNota3: EditText = findViewById(R.id.idMateria3Text)
+        val campoResultado: TextView = findViewById(R.id.txtMensaje1)
+
+        val nombre:String = campoNombre.text.toString()
+        val materia:String = campoMateria.text.toString()
+        val nota1:Double = campoNota1.text.toString().toDouble()
+        val nota2:Double = campoNota2.text.toString().toDouble()
+        val nota3:Double = campoNota3.text.toString().toDouble()
+
+        var prom:Double=(nota1+nota2+nota3)/3
+
+        var result=""
+
+        if (prom>=3.5){
+            result="El estudiante $nombre Gano $materia Con: $prom"
+        }else{
+            result="El estudiante $nombre Perdió $materia Con: $prom"
+        }
+
+        campoResultado.text=result
+
+
+        //Mostrar en otra pantalla
+        val intent = Intent(this,MainActivity2::class.java)
+
+        val miBundle:Bundle = Bundle()
+        miBundle.putString("Promedio",campoResultado!!.text.toString())
+
+        intent.putExtras(miBundle)
+        startActivity(intent)
+    }
+}
